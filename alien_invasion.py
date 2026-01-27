@@ -32,6 +32,12 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()
+
+            # 删除已消失的子弹
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
+
             self._upgrade_screen()
             self.clock.tick(60)
 
@@ -80,6 +86,7 @@ class AlienInvasion:
         # 绘制飞船矩形
         self.ship.blitme()
 
+        # 使最近绘制的屏幕可见（刷新屏幕）
         pygame.display.flip()
 
 if __name__ == '__main__':
