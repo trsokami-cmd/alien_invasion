@@ -86,10 +86,20 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
 
     def _create_fleet(self):
-        """创建一个外型舰队"""
-        # 创建一个外星人
+        """创建一个外星舰队"""
+        # 创建一个外星人，再不断添加，直到没有空间添加外星人为止
+        # 外星人的的间距为外星人的宽度
         alien = Alien(self)
-        self.aliens.add(alien)
+        alien_width = alien.rect.width
+
+        current_x = alien_width
+        while current_x < (self.settings.screen_width - 2 * alien_width):
+            new_alien = Alien(self)
+            new_alien.x = current_x
+            new_alien.rect.x = new_alien.x
+            self.aliens.add(new_alien)
+            current_x += 2 * alien_width
+
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
