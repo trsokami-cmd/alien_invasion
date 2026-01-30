@@ -1,8 +1,10 @@
 import sys
+from time import sleep
 
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -20,6 +22,9 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+
+        # 创建一个用于存储游戏统计信息的实例
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -107,7 +112,23 @@ class AlienInvasion:
 
         # 检测外星人和飞船之间的碰撞
         if pygame.sprite.spritecollide(self.ship, self.aliens, dokill=False):
-            print("Ship hit!!!")
+            self._ship_hit()
+
+    def _ship_hit(self):
+        """响应飞船和外星人的碰撞"""
+        # 将ship_left减1
+        self.stats.ships_left -= 1
+
+        # 清空外星人列表和子弹列表
+        self.bullets.empty()
+        self.aliens.empty()
+
+        # 创建一个新的外星舰队，并将飞船放在屏幕底部的中央
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # 暂停
+        sleep(0.5)
 
     def _create_fleet(self):
         """创建一个外星舰队"""
