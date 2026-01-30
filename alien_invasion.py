@@ -114,6 +114,17 @@ class AlienInvasion:
         if pygame.sprite.spritecollide(self.ship, self.aliens, dokill=False):
             self._ship_hit()
 
+        # 检查是否有外星人到达了屏幕的下边缘
+        self._check_alien_bottom()
+
+    def _check_alien_bottom(self):
+        """检查是否有外星人到达了屏幕的下边缘"""
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= self.settings.screen_height:
+                # 像飞船被撞到一样进行处理
+                self._ship_hit()
+                break
+
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
         # 将ship_left减1
