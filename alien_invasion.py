@@ -75,7 +75,12 @@ class AlienInvasion:
         """在玩家单击Play按钮时开始新游戏"""
         # collidepoint()方法检查鼠标单击的位置是否在Play按钮的rect内
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.game_active:
+        if button_clicked:
+            self._start_game()
+
+    def _start_game(self):
+        """按P键开始游戏"""
+        if not self.game_active:
             # 重置游戏的统计信息
             self.stats.reset_stats()
             self.game_active = True
@@ -101,6 +106,8 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            self._start_game()
 
     def _check_keyup_events(self, event):
         """响应释放"""
