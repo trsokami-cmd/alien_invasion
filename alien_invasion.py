@@ -81,6 +81,8 @@ class AlienInvasion:
     def _start_game(self):
         """按P键开始游戏"""
         if not self.game_active:
+            # 还原游戏设置
+            self.settings.initialize_dynamic_settings()
             # 重置游戏的统计信息
             self.stats.reset_stats()
             self.game_active = True
